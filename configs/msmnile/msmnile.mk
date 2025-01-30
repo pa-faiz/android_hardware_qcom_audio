@@ -481,3 +481,31 @@ PRODUCT_PACKAGES_ENG += \
 
 PRODUCT_PACKAGES_DEBUG += \
     AudioSettings
+
+ifeq ($(TARGET_BOARD_PLATFORM),true)
+$(call soong_config_set,platform,target_board_platform,true)
+endif
+
+ifeq ($(strip $(AUDIO_FEATURE_ENABLED_EXT_AMPLIFIER)),true)
+$(call soong_config_set,qtiaudio,feature_ext_amplifier,true)
+endif
+
+ifeq ($(strip $(AUDIO_FEATURE_ENABLED_EXTENDED_COMPRESS_FORMAT)),true)
+$(call soong_config_set,qtiaudio,feature_extended_compress_format,true)
+endif
+
+ifeq ($(strip $(AUDIO_FEATURE_ENABLED_GEF_SUPPORT)),true)
+$(call soong_config_set,qtiaudio,feature_gef_support,true)
+endif
+
+ifeq ($(strip $(AUDIO_FEATURE_ENABLED_GKI)),true)
+$(call soong_config_set,qtiaudio,feature_gki,true)
+endif
+
+ifeq ($(strip $(AUDIO_FEATURE_ENABLED_INSTANCE_ID)),true)
+$(call soong_config_set,qtiaudio,feature_instance_id,true)
+endif
+
+ifeq ($(strip $(ST_FEATURE_ENABLE)),true)
+$(call soong_config_set,qtiaudio,feature_sound_trigger,true)
+endif
