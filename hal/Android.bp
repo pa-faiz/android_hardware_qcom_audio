@@ -1,0 +1,153 @@
+cc_library_shared {
+    name: "audio.primary.msmnile",
+    relative_install_path: "hw",
+    vendor: true,
+
+    defaults: [
+        "qtiaudio_defaults",
+    ],
+    owner: "qti",
+
+    header_libs: [
+        "libhardware_headers",
+        "qti_kernel_headers",
+        "qti_audio_kernel_uapi",
+    ],
+
+    srcs: [
+        "acdb.c",
+        "audio_hw.c",
+        "audio_perf.cpp",
+        "platform_info.c",
+        "voice.c",
+        "audio_extn/audio_extn.c",
+        "audio_extn/audio_hidl.cpp",
+        "audio_extn/compress_in.c",
+        "audio_extn/device_utils.c",
+        "audio_extn/fm.c",
+        "audio_extn/keep_alive.c",
+        "audio_extn/source_track.c",
+        "audio_extn/usb.c",
+        "audio_extn/utils.c",
+        "msm8974/hw_info.c",
+        "msm8974/platform.c",
+        "voice_extn/compress_voip.c",
+        "voice_extn/voice_extn.c",
+    ],
+
+    cflags: [
+        "-Werror",
+        "-D_GNU_SOURCE",
+        "-DHW_VARIANTS_ENABLED",
+    ],
+
+    local_include_dirs: [
+        "msm8974",
+        "audio_extn",
+        "voice_extn",
+    ],
+
+    include_dirs: [
+        "external/expat/lib",
+        "external/tinyalsa/include",
+        "external/tinycompress/include",
+        "system/media/audio_effects/include",
+        "system/media/audio_route/include",
+        "system/media/audio_utils/include",
+    ],
+
+    shared_libs: [
+        "android.hardware.power-V1-ndk",
+        "android.hardware.power@1.2",
+        "libaudioroute",
+        "libaudioutils",
+        "libbase",
+        "libbinder_ndk",
+        "libcutils",
+        "libdl",
+        "libexpat",
+        "libhidlbase",
+        "liblog",
+        "libprocessgroup",
+        "libtinyalsa",
+        "libtinycompress",
+        "libutils",
+        "libhardware",
+    ],
+
+    sanitize: {
+        integer_overflow: true,
+    },
+}
+
+soong_config_module_type {
+    name: "qtiaudio_cc_defaults",
+    module_type: "cc_defaults",
+    config_namespace: "qtiaudio",
+    bool_variables: [
+        "board_auto", // TARGET_BOARD_AUTO
+        "feature_ext_amplifier", // AUDIO_FEATURE_ENABLED_EXT_AMPLIFIER
+        "feature_extended_compress_format", // AUDIO_FEATURE_ENABLED_EXTENDED_COMPRESS_FORMAT
+        "feature_gef_support", // AUDIO_FEATURE_ENABLED_GEF_SUPPORT
+        "feature_gki", // AUDIO_FEATURE_ENABLED_GKI
+        "feature_instance_id", // AUDIO_FEATURE_ENABLED_INSTANCE_ID
+        "feature_sound_trigger", // ST_FEATURE_ENABLE
+        "target_board_platform", // TARGET_BOARD_PLATFORM
+    ],
+    properties: [
+        "cflags",
+        "cppflags",
+        "srcs",
+    ],
+}
+
+qtiaudio_cc_defaults {
+    name: "qtiaudio_defaults",
+    cflags: [
+        "-Wno-missing-field-initializers",
+        "-Wall",
+        "-Werror",
+        "-DUSE_VENDOR_EXTN",
+    ],
+    shared_libs: [
+        "liblog",
+        "libcutils",
+        "libutils",
+    ],
+
+    soong_config_variables: {
+        board_auto: {
+            cflags: ["-DCONFIG_BASEID_FROM_PROP"],
+        },
+        feature_ext_amplifier: {
+            cflags: ["-DEXT_AMPLIFIER_ENABLED"],
+            srcs: ["audio_extn/audio_amplifier.c"],
+        },
+        feature_extended_compress_format: {
+            cflags: ["-DENABLE_EXTENDED_COMPRESS_FORMAT"],
+        },
+        feature_gef_support: {
+            cflags: ["-DAUDIO_GENERIC_EFFECT_FRAMEWORK_ENABLED"],
+            srcs: ["audio_extn/gef.c"],
+        },
+        feature_gki: {
+            cflags: ["-DAUDIO_GKI_ENABLED"],
+        },
+        feature_instance_id: {
+            cflags: ["-DINSTANCE_ID_ENABLED"],
+        },
+        feature_sound_trigger: {
+            cflags: ["-DSOUND_TRIGGER_ENABLED"],
+            srcs: ["audio_extn/soundtrigger.c"],
+        },
+        target_board_platform: {
+            cflags: [
+                "-DPLATFORM_MSMNILE",
+                "-DMAX_TARGET_SPECIFIC_CHANNEL_CNT=4",
+                "-DINCALL_STEREO_CAPTURE_ENABLED",
+                "-DINCALL_MUSIC_ENABLED",
+                "-DSOUND_TRIGGER_PLATFORM_NAME=msmnile",
+            ],
+        },
+    },
+}
