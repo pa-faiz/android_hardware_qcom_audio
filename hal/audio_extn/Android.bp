@@ -21,7 +21,6 @@ cc_defaults {
     header_libs: [
         "libhardware_headers",
         "qti_kernel_headers",
-        "qti_audio_kernel_uapi",
     ],
 
     shared_libs: [
