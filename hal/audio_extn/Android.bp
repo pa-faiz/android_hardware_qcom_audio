@@ -15,7 +15,6 @@ cc_defaults {
         "system/media/audio_route/include",
         "system/media/audio_utils/include",
         "vendor/qcom/opensource/audio-hal/primary-hal/hal",
-        "vendor/qcom/opensource/audio-hal/primary-hal/hal/msm8974",
     ],
 
     header_libs: [

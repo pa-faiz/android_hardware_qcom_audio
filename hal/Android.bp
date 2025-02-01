@@ -41,7 +41,6 @@ cc_library_shared {
     ],
 
     local_include_dirs: [
-        "msm8974",
         "audio_extn",
         "voice_extn",
     ],
