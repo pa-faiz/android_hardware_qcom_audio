@@ -37,12 +37,7 @@ uint32_t gOmxLogLevel;
 
 void updateLogLevel() {
     char level[PROPERTY_VALUE_MAX];
-#ifdef ANDROID
-    property_get("persist.vendor.audio.debug.omx.logs.level", level, "0");
-    gOmxLogLevel = atoi(level);
-#else
     gOmxLogLevel = atoi("0");
-#endif
 }
 
 
